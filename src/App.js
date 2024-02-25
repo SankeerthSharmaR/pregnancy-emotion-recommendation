@@ -37,6 +37,9 @@ import Login from "views/Login.js";
 import SignUp from "views/SignUp";
 import "./App.css";
 import ForgotPwd from "views/ForgotPwd";
+import HomePage from "views/HomePage";
+import ChatScreen from "views/ChatScreen";
+import Profile from "views/Profile";
 
 function App() {
 	return (
@@ -44,7 +47,7 @@ function App() {
 			<Routes>
 				<Route
 					path='/'
-					element={<Navigate to='/login' />}
+					element={<Navigate to='/home' />}
 				/>
 				<Route
 					path='/login'
@@ -54,9 +57,21 @@ function App() {
 					path='/signup'
 					element={<SignUp />}
 				/>
-        <Route
+				<Route
 					path='/forgot'
 					element={<ForgotPwd />}
+				/>
+				<Route
+					path='/home'
+					element={<HomePage />}
+				/>
+				<Route
+					path='/chat'
+					element={<ChatScreen />}
+				/>
+				<Route
+					path='/profile'
+					element={<Profile />}
 				/>
 			</Routes>
 		</BrowserRouter>
