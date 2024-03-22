@@ -4,7 +4,7 @@ import Avatar from "./Avatar";
 
 const ChatList = ({ messages }) => {
 	return (
-		<div className='w-1/4 bg-white rounded-lg shadow-lg p-4 mr-4'>
+		<div className='w-30% bg-white rounded-lg shadow-lg p-4 mr-4'>
 			<h2 className='text-gray-800 text-lg font-bold mb-4'>
 				Recent Chats
 			</h2>

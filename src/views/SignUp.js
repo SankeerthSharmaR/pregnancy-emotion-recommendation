@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Navbar from "components/Navbar";
 import Footer from "components/Footer";
 import SignUpForm from "components/SignUpForm";
+import axiosInstance from "utils/axios";
+import { redirect } from "react-router-dom";
 
 export default function SignUp() {
 	// State for form fields and validation
@@ -11,19 +13,35 @@ export default function SignUp() {
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
 	// Handle input change
 	const handleInputChange = (e) => {
 		const { id, value } = e.target;
 		if (id === "email") {
 			setEmail(value);
-			// Validation logic can be added here if required
+			// Email validation
+			if (!value || !/\S+@\S+\.\S+/.test(value)) {
+				setEmailError("Please enter a valid email address");
+			} else {
+				setEmailError("");
+			}
 		} else if (id === "password") {
 			setPassword(value);
-			// Validation logic can be added here if required
+			// Password validation
+			if (!value || value.length < 6) {
+				setPasswordError("Password must be at least 6 characters long");
+			} else {
+				setPasswordError("");
+			}
 		} else if (id === "confirm-password") {
 			setConfirmPassword(value);
-			// Validation logic can be added here if required
+			// Confirm password validation
+			if (value !== password) {
+				setPasswordError("Passwords do not match");
+			} else {
+				setPasswordError("");
+			}
 		}
 	};
 
@@ -33,9 +51,41 @@ export default function SignUp() {
 	};
 
 	// Handle form submission
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// Form submission logic can be added here
+		try {
+			const response = await axiosInstance.post("/signup", {
+				username: email,
+				password: password,
+			});
+			if (response && response.data && response.data.message) {
+				console.log("Sign up successful!");
+				// Redirect to home page
+				redirect("/login");
+			} else {
+				console.error("Sign up failed: Invalid response format");
+				// Show a generic error message to the user
+				// Example: setErrorMessage("Sign up failed. Please try again.");
+			}
+		} catch (error) {
+			if (
+				error.response &&
+				error.response.data &&
+				error.response.data.message
+			) {
+				console.error("Sign up failed:", error.response.data.message);
+				// Show the error message received from the server to the user
+				// Example: setErrorMessage(error.response.data.message);
+			} else if (error.message) {
+				console.error("Sign up failed:", error.message);
+				// Show a generic error message to the user
+				// Example: setErrorMessage("An error occurred. Please try again later.");
+			} else {
+				console.error("Sign up failed: Unknown error");
+				// Show a generic error message to the user
+				// Example: setErrorMessage("An unknown error occurred. Please try again later.");
+			}
+		}
 	};
 
 	return (
@@ -68,6 +118,7 @@ export default function SignUp() {
 										togglePasswordVisibility
 									}
 									handleSubmit={handleSubmit}
+									errorMessage={errorMessage}
 								/>
 							</div>
 						</div>

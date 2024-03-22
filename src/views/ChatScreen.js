@@ -47,10 +47,16 @@ export default function ChatScreen() {
 			<Navbar transparent />
 			<main className='min-h-screen bg-gray-900'>
 				<section className='container mx-auto flex py-20'>
-					<ChatList messages={messages} />
-					<ChatArea messages={messages} />
+					<div className='w-30%'>
+						<ChatList messages={messages} />
+						<ChatArea
+							messages={messages}
+							sendMessage={sendMessage}
+						/>
+						<MessageInput sendMessage={sendMessage} />
+					</div>
+					<div className='w-70%'>{/* Other content here */}</div>
 				</section>
-				<MessageInput sendMessage={sendMessage} />
 				<Footer />
 			</main>
 		</>

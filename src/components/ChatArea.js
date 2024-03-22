@@ -1,10 +1,11 @@
 // components/ChatArea.js
 import React from "react";
 import MessageBubble from "./MessageBubble";
+import MessageInput from "./MessageInput";
 
-const ChatArea = ({ messages }) => {
+const ChatArea = ({ messages, sendMessage }) => {
 	return (
-		<div className='flex-1 bg-white rounded-lg shadow-lg p-6'>
+		<div className='w-70% bg-white rounded-lg shadow-lg p-6'>
 			<div className='mb-6 h-96 overflow-y-auto'>
 				{messages.map((message) => (
 					<MessageBubble
@@ -14,6 +15,7 @@ const ChatArea = ({ messages }) => {
 					/>
 				))}
 			</div>
+			<MessageInput sendMessage={sendMessage} />
 		</div>
 	);
 };
