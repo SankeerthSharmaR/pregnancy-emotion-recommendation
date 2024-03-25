@@ -1,8 +1,6 @@
-// components/LoginForm.js
 import React from "react";
 import EmailInput from "components/EmailInput";
 import PasswordInput from "components/PasswordInput";
-import SocialMediaButtons from "components/SocialMediaButtons";
 import { Link } from "react-router-dom";
 
 const LoginForm = ({
@@ -16,11 +14,11 @@ const LoginForm = ({
 	handleSubmit,
 }) => {
 	return (
-		<div className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300 border-0'>
+		<div className='relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-opacity-50 backdrop-filter backdrop-blur-lg bg-gray-100 border-0'>
 			<div className='rounded-t mb-0 px-6 py-6'>
 				{/* Sign in heading */}
 				<div className='text-center mb-3'>
-					<h2 className='text-gray-600 text-3xl font-bold'>
+					<h2 className='text-gray-800 text-3xl font-bold'>
 						Sign in
 					</h2>
 				</div>
@@ -77,13 +75,7 @@ const LoginForm = ({
 					</div>
 				</form>
 
-				{/* Or sign in with social accounts */}
-				<hr className='mt-6 border-b-1 border-gray-400' />
 				<div className='flex-auto px-4 lg:px-10 py-10 pt-0'>
-					<div className='text-gray-500 text-center mb-3 font-bold'>
-						<small>Or sign in with</small>
-					</div>
-					<SocialMediaButtons />
 					<div className='flex justify-center mt-6'>
 						<div className='text-center'>
 							<Link

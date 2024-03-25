@@ -1,11 +1,9 @@
-import React, { useState } from "react";
-import Navbar from "components/Navbar";
-import Footer from "components/Footer";
+// components/LoginPage.js
 import LoginForm from "components/LoginForm";
+import { useState } from "react";
 import axiosInstance from "utils/axios";
 
-export default function Login() {
-	// State for form fields and validation
+export default function LoginPage({ showAlert }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [emailError, setEmailError] = useState("");
@@ -33,7 +31,6 @@ export default function Login() {
 		}
 	};
 
-	// Toggle password visibility
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
 	};
@@ -48,12 +45,11 @@ export default function Login() {
 			if (response && response.data && response.data.token) {
 				const token = response.data.token;
 				localStorage.setItem("token", token);
-				console.log("Login successful!");
+				showAlert("Login successful!", "success");
 				// Redirect to the home page or any other route
 			} else {
 				console.error("Login failed: Invalid response format");
-				// Show a generic error message to the user
-				// Example: setError("Login failed. Please try again.");
+				showAlert("Login failed. Please try again.", "error");
 			}
 		} catch (error) {
 			if (
@@ -62,56 +58,37 @@ export default function Login() {
 				error.response.data.message
 			) {
 				console.error("Login failed:", error.response.data.message);
-				// Show the error message received from the server to the user
-				// Example: setError(error.response.data.message);
+				showAlert(error.response.data.message, "error");
 			} else if (error.message) {
 				console.error("Login failed:", error.message);
-				// Show a generic error message to the user
-				// Example: setError("An error occurred. Please try again later.");
+				showAlert(
+					"An error occurred. Please try again later.",
+					"error",
+				);
 			} else {
 				console.error("Login failed: Unknown error");
-				// Show a generic error message to the user
-				// Example: setError("An unknown error occurred. Please try again later.");
+				showAlert(
+					"An unknown error occurred. Please try again later.",
+					"error",
+				);
 			}
 		}
 	};
 
 	return (
-		<>
-			<Navbar transparent />
-			<main>
-				<section className='absolute w-full h-full'>
-					<div
-						className='absolute top-0 w-full h-full bg-gray-900'
-						style={{
-							backgroundImage: `url(${
-								require("assets/img/register_bg_2.png").default
-							})`,
-							backgroundSize: "100%",
-							backgroundRepeat: "no-repeat",
-						}}
-					/>
-					<div className='container mx-auto px-4 h-full'>
-						<div className='flex content-center items-center justify-center h-full'>
-							<div className='w-full lg:w-4/12 px-4'>
-								<LoginForm
-									email={email}
-									password={password}
-									emailError={emailError}
-									passwordError={passwordError}
-									showPassword={showPassword}
-									handleInputChange={handleInputChange}
-									togglePasswordVisibility={
-										togglePasswordVisibility
-									}
-									handleSubmit={handleSubmit}
-								/>
-							</div>
-						</div>
-					</div>
-					<Footer absolute />
-				</section>
-			</main>
-		</>
+		<main className='min-h-screen flex justify-center items-center'>
+			<div className='w-2/5 h-3/5 backdrop-blur bg-opacity-25'>
+				<LoginForm
+					email={email}
+					password={password}
+					emailError={emailError}
+					passwordError={passwordError}
+					showPassword={showPassword}
+					handleInputChange={handleInputChange}
+					togglePasswordVisibility={togglePasswordVisibility}
+					handleSubmit={handleSubmit}
+				/>
+			</div>
+		</main>
 	);
 }

@@ -1,28 +1,19 @@
-import React, { useState } from "react";
-import Navbar from "components/Navbar.js"; // Update the import path as per your project structure
-import Footer from "components/Footer";
-import ChatArea from "components/ChatArea";
-import StoryInput from "components/StoryInput";
 import RecommendedStories from "components/RecommendedStories";
+import StoryInput from "components/StoryInput";
+import StoryModal from "components/StoryModal";
+import { useState } from "react";
 
-export default function HomePage() {
-	const [messages, setMessages] = useState([]);
-	const [recommendedStories, setRecommendedStories] = useState([]);
+export default function HomePage({ showAlert }) {
 	const [userStory, setUserStory] = useState("");
+	const [recommendedStories, setRecommendedStories] = useState([]);
 	const [showStoryInput, setShowStoryInput] = useState(true);
-
-	const sendMessage = (newMessage) => {
-		const formattedMessage = {
-			id: messages.length + 1,
-			sender: { name: "You", avatar: "/avatars/avatar3.jpg" },
-			message: newMessage,
-			timestamp: new Date().toLocaleTimeString([], {
-				hour: "2-digit",
-				minute: "2-digit",
-			}),
-		};
-		setMessages([...messages, formattedMessage]);
-	};
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [modalContent, setModalContent] = useState({
+		title: "",
+		content: "",
+		author: "",
+		imageUrl: null,
+	});
 
 	const fetchRecommendedStories = async (input_text) => {
 		try {
@@ -44,65 +35,70 @@ export default function HomePage() {
 			return await response.json();
 		} catch (error) {
 			console.error("Error fetching recommended stories:", error);
+			showAlert(
+				"Failed to fetch recommended stories. Please try again later.",
+				"error",
+			);
 			return [];
 		}
 	};
 
 	const handleSubmitStory = async () => {
 		if (!userStory.trim()) return;
-		const stories = await fetchRecommendedStories(userStory);
-		setRecommendedStories(stories);
-		setShowStoryInput(false);
+
+		try {
+			const stories = await fetchRecommendedStories(userStory);
+			setRecommendedStories(stories);
+			setShowStoryInput(false);
+		} catch (error) {
+			console.error("Error fetching recommended stories:", error);
+			showAlert(
+				"Failed to fetch recommended stories. Please try again later.",
+				"error",
+			);
+		}
 	};
 
 	const handleToggleStoryInput = () => {
 		setShowStoryInput(!showStoryInput);
-		// Reset recommended stories states
 		setRecommendedStories([]);
+	};
+
+	const handleModalToggle = (title, content, author, imageUrl) => {
+		setIsModalOpen(!isModalOpen);
+		setModalContent({ title, content, author, imageUrl });
 	};
 
 	return (
 		<>
-			<Navbar transparent />
-			<section className='absolute w-full h-full'>
-				<div
-					className='absolute top-0 w-full h-full bg-gray-900'
-					style={{
-						backgroundImage: `url(${
-							require("assets/img/register_bg_2.png").default
-						})`,
-						backgroundSize: "100%",
-						backgroundRepeat: "no-repeat",
-					}}
+			<main className='min-h-screen flex justify-center items-center'>
+				<div className='w-4/5 h-4/5 backdrop-blur bg-opacity-25'>
+					{showStoryInput ? (
+						<StoryInput
+							userStory={userStory}
+							setUserStory={setUserStory}
+							handleSubmitStory={handleSubmitStory}
+							showAlert={showAlert}
+						/>
+					) : (
+						<RecommendedStories
+							recommendedStories={recommendedStories}
+							handleModalToggle={handleModalToggle}
+							handleToggleStoryInput={handleToggleStoryInput}
+						/>
+					)}
+				</div>
+			</main>
+			{isModalOpen && (
+				<StoryModal
+					isOpen={isModalOpen}
+					onClose={handleModalToggle}
+					title={modalContent.title}
+					content={modalContent.content}
+					author={modalContent.author}
+					imageUrl={modalContent.imageUrl}
 				/>
-				<main>
-					<section className='relative w-2/3 h-full bg-gray-900'>
-						<div className='container mx-auto px-4 py-20'>
-							{showStoryInput && (
-								<StoryInput
-									userStory={userStory}
-									setUserStory={setUserStory}
-									handleSubmitStory={handleSubmitStory}
-								/>
-							)}
-							<RecommendedStories
-								stories={recommendedStories}
-								showStoryInput={showStoryInput}
-								handleToggleStoryInput={handleToggleStoryInput}
-							/>
-						</div>
-					</section>
-					<section>
-						<div className='absolute top-20 right-0 w-1/3'>
-							<ChatArea
-								messages={messages}
-								sendMessage={sendMessage}
-							/>
-						</div>
-					</section>
-				</main>
-				<Footer absolute />
-			</section>
+			)}
 		</>
 	);
 }
