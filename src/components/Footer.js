@@ -1,27 +1,46 @@
 import React from "react";
 
 export default function Footer() {
-	return (
-		<>
-			<footer className='fixed bottom-0 w-full z-50 backdrop-blur'>
-				<div className='container mx-auto px-4'>
-					<hr className='mb-6 border-b-1 border-gray-100' />
-					<div className='flex flex-wrap items-center justify-center'>
-						<div className='w-full md:w-4/12 px-4 text-center'>
-							<div className='text-sm text-white font-semibold py-1'>
-								Copyright © {new Date().getFullYear()}{" "}
-								<a
-									href='/'
-									className='text-white hover:text-gray-400 text-sm font-semibold py-1'
-								>
-									Your Company Name
-								</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className='h-px bg-white opacity-25'></div>
-			</footer>
-		</>
-	);
+  // Replace with actual LinkedIn URLs
+  const yashLinkedIn = "https://www.linkedin.com/in/yash-javiya";
+  const sakeerthLinkedIn = "https://www.linkedin.com/in/sakeerth-rani";
+
+  return (
+    <>
+      <footer className="fixed bottom-0 w-full z-50 bg-white/20 backdrop-blur-xl shadow-lg">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <a
+              href="https://web.cs.dal.ca/~orji/index.html"
+              className="text-xl font-semibold text-gray-800 hover:text-blue-500 transition duration-300 ease-in-out"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Persuasive Computing Lab, Dalhousie University
+            </a>
+            <div className="text-gray-600 text-sm mt-2 md:mt-0 md:ml-4">
+              Developed by
+              <a
+                href={yashLinkedIn}
+                className="hover:text-blue-500 transition duration-300 ease-in-out ml-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Yash Javiya
+              </a>{" "}
+              and
+              <a
+                href={sakeerthLinkedIn}
+                className="hover:text-blue-500 transition duration-300 ease-in-out ml-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Sakeerth Rani
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
+  );
 }

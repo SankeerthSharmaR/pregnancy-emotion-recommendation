@@ -4,91 +4,88 @@ import { useState } from "react";
 import axiosInstance from "utils/axios";
 
 export default function LoginPage({ showAlert }) {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [emailError, setEmailError] = useState("");
-	const [passwordError, setPasswordError] = useState("");
-	const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-	const handleInputChange = (e) => {
-		const { id, value } = e.target;
-		if (id === "email") {
-			setEmail(value);
-			// Email validation
-			if (!value || !/\S+@\S+\.\S+/.test(value)) {
-				setEmailError("Please enter a valid email address");
-			} else {
-				setEmailError("");
-			}
-		} else if (id === "password") {
-			setPassword(value);
-			// Password validation
-			if (!value || value.length < 6) {
-				setPasswordError("Password must be at least 6 characters long");
-			} else {
-				setPasswordError("");
-			}
-		}
-	};
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    if (id === "email") {
+      setEmail(value);
+      // Email validation
+      if (!value || !/\S+@\S+\.\S+/.test(value)) {
+        setEmailError("Please enter a valid email address");
+      } else {
+        setEmailError("");
+      }
+    } else if (id === "password") {
+      setPassword(value);
+      // Password validation
+      if (!value || value.length < 6) {
+        setPasswordError("Password must be at least 6 characters long");
+      } else {
+        setPasswordError("");
+      }
+    }
+  };
 
-	const togglePasswordVisibility = () => {
-		setShowPassword(!showPassword);
-	};
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const response = await axiosInstance.post("/login", {
-				username: email,
-				password: password,
-			});
-			if (response && response.data && response.data.token) {
-				const token = response.data.token;
-				localStorage.setItem("token", token);
-				showAlert("Login successful!", "success");
-				// Redirect to the home page or any other route
-			} else {
-				console.error("Login failed: Invalid response format");
-				showAlert("Login failed. Please try again.", "error");
-			}
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.data &&
-				error.response.data.message
-			) {
-				console.error("Login failed:", error.response.data.message);
-				showAlert(error.response.data.message, "error");
-			} else if (error.message) {
-				console.error("Login failed:", error.message);
-				showAlert(
-					"An error occurred. Please try again later.",
-					"error",
-				);
-			} else {
-				console.error("Login failed: Unknown error");
-				showAlert(
-					"An unknown error occurred. Please try again later.",
-					"error",
-				);
-			}
-		}
-	};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axiosInstance.post("/login", {
+        username: email,
+        password: password,
+      });
+      if (response && response.data && response.data.token) {
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        showAlert("Login successful!", "success");
+        // Redirect to the home page or any other route
+      } else {
+        console.error("Login failed: Invalid response format");
+        showAlert("Login failed. Please try again.", "error");
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.error("Login failed:", error.response.data.message);
+        showAlert(error.response.data.message, "error");
+      } else if (error.message) {
+        console.error("Login failed:", error.message);
+        showAlert("An error occurred. Please try again later.", "error");
+      } else {
+        console.error("Login failed: Unknown error");
+        showAlert(
+          "An unknown error occurred. Please try again later.",
+          "error"
+        );
+      }
+    }
+  };
 
-	return (
-		<main className='min-h-screen flex justify-center items-center'>
-			<div className='w-2/5 h-3/5 backdrop-blur bg-opacity-25'>
-				<LoginForm
-					email={email}
-					password={password}
-					emailError={emailError}
-					passwordError={passwordError}
-					showPassword={showPassword}
-					handleInputChange={handleInputChange}
-					togglePasswordVisibility={togglePasswordVisibility}
-					handleSubmit={handleSubmit}
-				/>
-			</div>
-		</main>
-	);
+  return (
+    <main className="min-h-screen flex justify-center items-center">
+      <div className="w-2/5 h-3/5 backdrop-blur bg-opacity-25">
+        <LoginForm
+          email={email}
+          password={password}
+          emailError={emailError}
+          passwordError={passwordError}
+          showPassword={showPassword}
+          handleInputChange={handleInputChange}
+          togglePasswordVisibility={togglePasswordVisibility}
+          handleSubmit={handleSubmit}
+        />
+      </div>
+    </main>
+  );
 }

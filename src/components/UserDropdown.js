@@ -1,89 +1,69 @@
-import React from "react";
-import { createPopper } from "@popperjs/core";
+import React, { useState } from "react";
 
-const UserDropdown = () => {
-  // dropdown props
-  const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
-  const openDropdownPopover = () => {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-      placement: "bottom-end"
-    });
-    setDropdownPopoverShow(true);
-  };
-  const closeDropdownPopover = () => {
-    setDropdownPopoverShow(false);
-  };
+export default function UserDropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
   return (
-    <>
-      <a
-        className="text-blueGray-500 block"
-        href="#pablo"
-        ref={btnDropdownRef}
-        onClick={e => {
-          e.preventDefault();
-          dropdownPopoverShow ? closeDropdownPopover() : openDropdownPopover();
-        }}
-      >
-        <div className="items-center flex">
-          <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-            <img
-              alt="..."
-              className="w-full rounded-full align-middle border-none shadow-lg"
-              src={require("assets/img/team-1-800x800.jpg").default}
+    <div className="relative inline-block text-left">
+      <div>
+        <button
+          type="button"
+          className="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-gray-800 bg-white rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          id="options-menu"
+          aria-haspopup="true"
+          aria-expanded="true"
+          onClick={toggleDropdown}
+        >
+          User Actions
+          <svg
+            className="-mr-1 ml-2 h-5 w-5"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+              clipRule="evenodd"
             />
-          </span>
-        </div>
-      </a>
-      <div
-        ref={popoverDropdownRef}
-        className={
-          (dropdownPopoverShow ? "block " : "hidden ") +
-          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg mt-1"
-        }
-        style={{ minWidth: "12rem" }}
-      >
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={e => e.preventDefault()}
-        >
-          Action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={e => e.preventDefault()}
-        >
-          Another action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={e => e.preventDefault()}
-        >
-          Something else here
-        </a>
-        <div className="h-0 my-2 border border-solid border-blueGray-100" />
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={e => e.preventDefault()}
-        >
-          Seprated link
-        </a>
+          </svg>
+        </button>
       </div>
-    </>
+      {isOpen && (
+        <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+          <div
+            className="py-1"
+            role="menu"
+            aria-orientation="vertical"
+            aria-labelledby="options-menu"
+          >
+            <a
+              href="/profile"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
+              role="menuitem"
+            >
+              Edit Profile
+            </a>
+            <a
+              href="/chat"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
+              role="menuitem"
+            >
+              Enter Chat
+            </a>
+            <a
+              href="/logout"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-500 hover:text-white"
+              role="menuitem"
+            >
+              Logout
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
   );
-};
-
-export default UserDropdown;
+}

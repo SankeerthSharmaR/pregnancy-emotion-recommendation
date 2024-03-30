@@ -7,26 +7,24 @@ import Footer from "components/Footer";
 import Alert from "components/Alert";
 
 function App() {
-	const [alert, setAlert] = useState(null);
+  const [alert, setAlert] = useState(null);
 
-	const handleCloseAlert = () => {
-		setAlert(null);
-	};
+  const handleCloseAlert = () => {
+    setAlert(null);
+  };
 
-	return (
-		<div className='w-full h-full gradient-background relative'>
-			<Navbar />
-			<Alert
-				message={alert?.message}
-				type={alert?.type}
-				onClose={handleCloseAlert}
-			/>
-			<AppRoutes
-				showAlert={(message, type) => setAlert({ message, type })}
-			/>
-			<Footer />
-		</div>
-	);
+  return (
+    <div className="w-full h-full gradient-background relative">
+      <Navbar />
+      <Alert
+        message={alert?.message}
+        type={alert?.type}
+        onClose={handleCloseAlert}
+      />
+      <AppRoutes showAlert={(message, type) => setAlert({ message, type })} />
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
