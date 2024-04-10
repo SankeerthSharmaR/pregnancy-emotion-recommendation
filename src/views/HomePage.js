@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from 'react';
 import RecommendedStories from "components/RecommendedStories";
 import StoryInput from "components/StoryInput";
 import StoryModal from "components/StoryModal";
-import { useState } from "react";
+import Kommunicate from '@kommunicate/kommunicate-chatbot-plugin';
 
 export default function HomePage({ showAlert }) {
   const [userStory, setUserStory] = useState("");
@@ -14,6 +15,11 @@ export default function HomePage({ showAlert }) {
     author: "",
     imageUrl: null,
   });
+
+  // Initialize Kommunicate when the component mounts
+  useEffect(() => {
+    Kommunicate.init("17e02a2a3ba47a545fbd98e463691550a");
+  }, []);
 
   const fetchRecommendedStories = async (input_text) => {
     try {

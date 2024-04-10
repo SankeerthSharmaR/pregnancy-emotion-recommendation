@@ -3,7 +3,7 @@ import React from "react";
 export default function Footer() {
   // Replace with actual LinkedIn URLs
   const yashLinkedIn = "https://www.linkedin.com/in/yash-javiya";
-  const sakeerthLinkedIn = "https://www.linkedin.com/in/sakeerth-rani";
+  const sakeerthLinkedIn = "https://www.linkedin.com/in/sankeerthsharma/";
 
   return (
     <>
