@@ -1,16 +1,19 @@
 import { useState } from "react";
 import SignUpForm from "components/SignUpForm";
 import axiosInstance from "utils/axios";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp({ showAlert }) {
 	// State for form fields and validation
+	const [name, setName] = useState("");
+	const [nameError, setNameError] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [emailError, setEmailError] = useState("");
 	const [passwordError, setPasswordError] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
-
+	const navigate = useNavigate();
 	// Handle input change
 	const handleInputChange = (e) => {
 		const { id, value } = e.target;
@@ -38,6 +41,8 @@ export default function SignUp({ showAlert }) {
 			} else {
 				setPasswordError("");
 			}
+		} else if (id === "name") {
+			setName(value);
 		}
 	};
 
@@ -51,12 +56,14 @@ export default function SignUp({ showAlert }) {
 		e.preventDefault();
 		try {
 			const response = await axiosInstance.post("/signup", {
-				username: email,
+				username: name,
+				email: email,
 				password: password,
 			});
 			if (response && response.data && response.data.message) {
 				console.log("Sign up successful!");
-				showAlert("Sign up successful!", "success"); // Display success message
+				showAlert("Sign up successful!", "success");
+				navigate("/login");
 			} else {
 				console.error("Sign up failed: Invalid response format");
 				showAlert("Sign up failed. Please try again.", "error"); // Display error message
@@ -71,30 +78,29 @@ export default function SignUp({ showAlert }) {
 				showAlert(error.response.data.message, "error"); // Display error message
 			} else if (error.message) {
 				console.error("Sign up failed:", error.message);
-				showAlert(
-					"An error occurred. Please try again later.",
-					"error",
-				); // Display error message
+				showAlert("An error occurred. Please try again later.", "error"); // Display error message
 			} else {
 				console.error("Sign up failed: Unknown error");
 				showAlert(
 					"An unknown error occurred. Please try again later.",
-					"error",
+					"error"
 				); // Display error message
 			}
 		}
 	};
 
 	return (
-		<main className='min-h-screen flex justify-center items-center'>
-			<div className='w-2/5 h-3/5 backdrop-blur bg-opacity-25'>
+		<main className="min-h-screen flex justify-center items-center">
+			<div className="w-2/5 h-3/5 backdrop-blur bg-opacity-25">
 				<SignUpForm
+					name={name}
+					nameError={nameError}
 					email={email}
-					password={password}
-					confirmPassword={confirmPassword}
 					emailError={emailError}
+					password={password}
 					passwordError={passwordError}
 					showPassword={showPassword}
+					confirmPassword={confirmPassword}
 					handleInputChange={handleInputChange}
 					togglePasswordVisibility={togglePasswordVisibility}
 					handleSubmit={handleSubmit}

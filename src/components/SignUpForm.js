@@ -2,11 +2,14 @@
 import React from "react";
 import EmailInput from "components/EmailInput";
 import PasswordInput from "components/PasswordInput";
+import NameInput from "components/NameInput";
 import { Link } from "react-router-dom";
 
 const SignUpForm = ({
 	handleSubmit,
 	handleInputChange,
+	name,
+	nameError,
 	email,
 	emailError,
 	password,
@@ -24,6 +27,13 @@ const SignUpForm = ({
 					</h2>
 				</div>
 				<form onSubmit={handleSubmit}>
+
+					<NameInput
+						value={name}
+						onChange={handleInputChange}
+						error={nameError}
+					/>
+
 					<EmailInput
 						value={email}
 						onChange={handleInputChange}
