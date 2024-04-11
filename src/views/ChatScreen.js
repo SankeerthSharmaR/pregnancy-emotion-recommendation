@@ -2,7 +2,7 @@ import ChatArea from "components/ChatArea";
 import ChatList from "components/ChatList";
 import MessageInput from "components/MessageInput";
 import { useState } from "react";
-
+import backgroundImage from '../assets/img/background-pregnant-women-image.jpg'; 
 export default function ChatScreen() {
   // State to store messages
   const [messages, setMessages] = useState([

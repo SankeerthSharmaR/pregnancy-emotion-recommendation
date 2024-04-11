@@ -2,6 +2,7 @@
 import LoginForm from "components/LoginForm";
 import { useState } from "react";
 import axiosInstance from "utils/axios";
+import backgroundImage from '../assets/img/background-pregnant-women-image.jpg'; 
 
 export default function LoginPage({ showAlert }) {
   const [email, setEmail] = useState("");
@@ -74,7 +75,9 @@ export default function LoginPage({ showAlert }) {
 
   return (
     <main className="min-h-screen flex justify-center items-center">
-      <div className="w-2/5 h-3/5 backdrop-blur bg-opacity-25">
+      <main className="min-h-screen flex justify-center items-center relative"></main>
+      <div className="absolute top-0 left-0 w-full h-full" style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', opacity: '0.5'}} />
+      <div className="w-2/5 h-3/5 backdrop-blur bg-opacity-25 relative z-10">
         <LoginForm
           email={email}
           password={password}

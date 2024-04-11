@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import RecommendedStories from "components/RecommendedStories";
 import StoryInput from "components/StoryInput";
 import StoryModal from "components/StoryModal";
+import { useState } from "react";
 import Kommunicate from '@kommunicate/kommunicate-chatbot-plugin';
+import backgroundImage from '../assets/img/background-pregnant-women-image.jpg'; 
 
 export default function HomePage({ showAlert }) {
   const [userStory, setUserStory] = useState("");
@@ -15,11 +17,6 @@ export default function HomePage({ showAlert }) {
     author: "",
     imageUrl: null,
   });
-
-  // Initialize Kommunicate when the component mounts
-  useEffect(() => {
-    Kommunicate.init("17e02a2a3ba47a545fbd98e463691550a");
-  }, []);
 
   const fetchRecommendedStories = async (input_text) => {
     try {
@@ -73,9 +70,10 @@ export default function HomePage({ showAlert }) {
   };
 
   return (
-    <>
-      <main className="min-h-screen flex justify-center items-center">
-        <div className="w-4/5 h-4/5 backdrop-blur bg-opacity-25">
+    <div className="home-page-container"> {/* Apply a custom class for styling */}
+      <main className="min-h-screen flex justify-center items-center relative">
+        <div className="absolute top-0 left-0 w-full h-full" style={{backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', opacity: '0.5'}} />
+        <div className="w-4/5 h-4/5 backdrop-blur bg-opacity-25 relative z-10">
           {showStoryInput ? (
             <StoryInput
               userStory={userStory}
@@ -102,6 +100,6 @@ export default function HomePage({ showAlert }) {
           imageUrl={modalContent.imageUrl}
         />
       )}
-    </>
+    </div>
   );
 }

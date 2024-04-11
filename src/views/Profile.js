@@ -2,6 +2,7 @@ import React from "react";
 
 import Navbar from "components/Navbar.js";
 import Footer from "components/Footer.js";
+import backgroundImage from '../assets/img/background-pregnant-women-image.jpg'; 
 
 export default function Profile() {
   return (

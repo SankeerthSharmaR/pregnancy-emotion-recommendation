@@ -1,3 +1,5 @@
+/* index.css */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,6 +11,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Background image */
+  background-image: url('../background-pregnant-women-image.jpg'); /* Adjust the path as needed */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* Keeps the background image fixed while scrolling */
+  height: 100vh; /* Ensure the background covers the entire viewport height */
 }
 
 code {
