@@ -15,7 +15,8 @@ function App() {
 		if (storedUser) {
 			setUser({
 				name: storedUser,
-				profilePic: "https://randomuser.me/api/portraits/med/men/75.jpg",
+				profilePic:
+					"https://randomuser.me/api/portraits/med/men/75.jpg",
 			});
 		}
 	}, []);
@@ -27,17 +28,23 @@ function App() {
 		localStorage.removeItem("token");
 		setUser(null);
 		setAlert({ message: "Logged out successfully!", type: "success" });
+		window.location.href = "/login";
 	};
 
 	return (
-		<div className="w-full h-full gradient-background relative">
-			<Navbar user={user} handleLogout={handleLogout} />
+		<div className='w-full h-full gradient-background relative'>
+			<Navbar
+				user={user}
+				handleLogout={handleLogout}
+			/>
 			<Alert
 				message={alert?.message}
 				type={alert?.type}
 				onClose={handleCloseAlert}
 			/>
-			<AppRoutes showAlert={(message, type) => setAlert({ message, type })} />
+			<AppRoutes
+				showAlert={(message, type) => setAlert({ message, type })}
+			/>
 			<Footer />
 		</div>
 	);
