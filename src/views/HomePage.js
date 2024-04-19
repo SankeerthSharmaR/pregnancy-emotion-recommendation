@@ -3,8 +3,15 @@ import RecommendedStories from "components/RecommendedStories";
 import StoryInput from "components/StoryInput";
 import StoryModal from "components/StoryModal";
 import { useState } from "react";
+import HeartbeatDemo from './HeartbeatDemo';
 import Kommunicate from "@kommunicate/kommunicate-chatbot-plugin";
 import backgroundImage from "../assets/img/background-pregnant-women-image.jpg";
+//import HeartbeatDemo from './HeartbeatDemo';
+import { useEffect } from 'react';
+import {Heartbeat} from './heartbeat.js'
+import { Box, Container, Typography, Tabs, Tab, Button } from "@mui/material";
+const OPENCV_URI = "https://docs.opencv.org/master/opencv.js";
+let HAARCASCADE_URI = "haarcascade_frontalface_alt.xml"
 
 export default function HomePage({ showAlert }) {
 	const [userStory, setUserStory] = useState("");
@@ -72,19 +79,25 @@ export default function HomePage({ showAlert }) {
 		setModalContent({ title, content, author, imageUrl });
 	};
 
+	
+
+
 	return (
 		<div className='home-page-container'>
 			{" "}
+			
 			{/* Apply a custom class for styling */}
 			<main className='min-h-screen flex justify-center items-center relative'>
-				<div
+				{/* <div
 					className='absolute top-0 left-0 w-full h-full'
 					style={{
 						backgroundImage: `url(${backgroundImage})`,
 						backgroundSize: "cover",
 						opacity: "0.5",
 					}}
-				/>
+				/> */}
+			  <HeartbeatDemo />
+			  
 				<div className='w-4/5 h-4/5'>
 					{showStoryInput ? (
 						<StoryInput
@@ -112,6 +125,8 @@ export default function HomePage({ showAlert }) {
 					)}
 				</div>
 			</main>
+			
 		</div>
+		
 	);
 }
